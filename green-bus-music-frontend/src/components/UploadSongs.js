@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UploadSongs.css'; // Import the CSS file
-import logo from '../assets/logo.png';
 
 const UploadSongs = () => {
   const navigate = useNavigate();

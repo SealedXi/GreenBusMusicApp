@@ -30,7 +30,8 @@ body {
   }
   
   .logo {
-    width: 200px; /* Adjust size as needed */
+    width: 150px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
     margin: 20px 0;
   }
   
