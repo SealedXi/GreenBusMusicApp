@@ -10,7 +10,8 @@
   }
   
   .logo {
-    width: 200px; /* Adjust size as needed */
+    width: 400px; /* Adjust the size as needed */
+    height: auto; /* Maintain aspect ratio */
     margin-bottom: 20px;
   }
   
