@@ -1,0 +1,31 @@
+.menu-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+    color: green;
+    text-align: center;
+  }
+  
+  .logo {
+    width: 200px; /* Adjust size as needed */
+    margin-bottom: 20px;
+  }
+  
+  .sign-in-button {
+    background-color: green;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-transform: uppercase;
+  }
+  
+  .sign-in-button:hover {
+    background-color: darkgreen;
+  }
+  
