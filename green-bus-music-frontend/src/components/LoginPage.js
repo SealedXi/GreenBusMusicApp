@@ -1,8 +1,15 @@
 import React from 'react';
-import './LoginPage.css'; // Create this file for custom styling
-import logo from '../assets/logo.png'; // Adjust the path as needed
+import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
+import logo from '../assets/logo.png';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="login-page">
       <img src={logo} alt="Green Bus Records Logo" className="logo" />
@@ -14,6 +21,9 @@ const LoginPage = () => {
         <input type="password" name="password" required />
         <button type="submit" className="sign-in-button">SIGN IN</button>
       </form>
+      <p className="register-link">
+        Don't have an account? <span onClick={handleRegisterClick}>Register now</span>
+      </p>
     </div>
   );
 };
