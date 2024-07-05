@@ -1,10 +1,54 @@
-import React from 'react';
+// import React from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import './LoginPage.css';
+// import logo from '../assets/logo.png';
+
+// const LoginPage = () => {
+//   const navigate = useNavigate();
+
+//   const handleRegisterClick = () => {
+//     navigate('/register');
+//   };
+
+//   return (
+//     <div className="login-page">
+//       <img src={logo} alt="Green Bus Records Logo" className="logo" />
+//       <h1>GREEN BUS RECORDS™</h1>
+//       <form className="login-form">
+//         <label>Email:</label>
+//         <input type="email" name="email" required />
+//         <label>Password:</label>
+//         <input type="password" name="password" required />
+//         <button type="submit" className="sign-in-button">SIGN IN</button>
+//       </form>
+//       <p className="register-link">
+//         Don't have an account? <span onClick={handleRegisterClick}>Register now</span>
+//       </p>
+//     </div>
+//   );
+// };
+
+// export default LoginPage;
+
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import logo from '../assets/logo.png';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLoginSubmit = (event) => {
+    event.preventDefault();
+    // Simulate login process
+    if (email === 'algonquin@greenbus.com' && password === 'password') {
+      navigate('/profile');
+    } else {
+      alert('Invalid credentials');
+    }
+  };
 
   const handleRegisterClick = () => {
     navigate('/register');
@@ -14,11 +58,11 @@ const LoginPage = () => {
     <div className="login-page">
       <img src={logo} alt="Green Bus Records Logo" className="logo" />
       <h1>GREEN BUS RECORDS™</h1>
-      <form className="login-form">
+      <form className="login-form" onSubmit={handleLoginSubmit}>
         <label>Email:</label>
-        <input type="email" name="email" required />
+        <input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <label>Password:</label>
-        <input type="password" name="password" required />
+        <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit" className="sign-in-button">SIGN IN</button>
       </form>
       <p className="register-link">
@@ -29,3 +73,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
