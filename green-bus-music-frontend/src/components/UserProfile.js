@@ -23,7 +23,7 @@ const UserProfile = () => {
       <header className="header-banner">
         You have arrived at your destination...
       </header>
-      <img src={logo} alt="Green Bus Records Logo" className="logo" />
+      <img src={logo} alt="Green Bus Records Logo" className="userprofile-logo" />
       <h1>GREEN BUS RECORDS™</h1>
       <h2>Welcome!</h2>
       <div className="profile-section">

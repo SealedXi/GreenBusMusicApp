@@ -12,7 +12,7 @@ const MenuPage = () => {
 
   return (
     <div className="menu-page">
-      <img src={logo} alt="Green Bus Records Logo" className="logo" />
+      <img src={logo} alt="Green Bus Records Logo" className="menu-logo" />
       <h1>GREEN BUS RECORDS™</h1>
       <button className="sign-in-button" onClick={handleSignInClick}>SIGN IN</button>
     </div>
