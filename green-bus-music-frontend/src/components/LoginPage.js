@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleLoginSubmit = (event) => {
     event.preventDefault();
     // Simulate login process
-    if (email === 'algonquin@greenbus.com' && password === 'password') {
+    if (email === 'abc@abc.com' && password === '1234') {
       navigate('/profile');
     } else {
       alert('Invalid credentials');
