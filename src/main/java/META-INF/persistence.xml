@@ -6,12 +6,12 @@
 
     <persistence-unit name="yourPersistenceUnitName" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>model.User</class>
-        <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/yourDatabaseName"/>
-            <property name="javax.persistence.jdbc.user" value="yourUsername"/>
-            <property name="javax.persistence.jdbc.password" value="yourPassword"/>
+        <class>com.greenbus.model.User</class>
+        <properties>            
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/GreenBusMusicDB?useSSL=false&amp;serverTimezone=UTC"/>
+	        <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+	        <property name="javax.persistence.jdbc.user" value="cst8277"/>
+	        <property name="javax.persistence.jdbc.password" value="8277"/>
 
             <!-- Hibernate properties -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>

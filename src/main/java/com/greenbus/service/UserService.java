@@ -1,7 +1,7 @@
-package service;
+package com.greenbus.service;
 
-import model.User;
-import repository.UserRepository;
+import com.greenbus.model.User;
+import com.greenbus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

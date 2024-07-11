@@ -1,6 +1,6 @@
-package repository;
+package com.greenbus.repository;
 
-import model.User;
+import com.greenbus.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

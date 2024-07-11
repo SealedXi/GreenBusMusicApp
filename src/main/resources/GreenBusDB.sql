@@ -9,3 +9,15 @@ CREATE TABLE users (
 );
 
 CREATE INDEX idx_email ON users(email);
+
+
+CREATE TABLE song (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(50) NOT NULL,
+	album VARCHAR(50),
+	audioRef VARCHAR(1000),
+	audioLink VARCHAR(1000), 
+    artRefString VARCHAR(50),
+    uploadTime VARCHAR(20) NOT NULL,
+    userid BIGINT NOT NULL
+);
