@@ -1,4 +1,4 @@
-package model;
+package com.greenbus.model;
 
 import javax.persistence.*;
 

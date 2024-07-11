@@ -1,7 +1,7 @@
-package controller;
+package com.greenbus.controller;
 
-import model.User;
-import service.UserService;
+import com.greenbus.model.User;
+import com.greenbus.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
