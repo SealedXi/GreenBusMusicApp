@@ -5,8 +5,10 @@ import com.greenbus.service.SongService;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -79,13 +81,39 @@ public class SongController {
     	}
     }
     
-    @PostMapping("/list/{userId}")
-    public ResponseEntity<List<Song>> findSongsByUserId(@PathVariable Long userId){
-    	List<Song> songs = songService.findSongsByUserId(userId);
+    /**
+     * 
+     * @param order 1 - id, 2 - title, 3 - album, 4 - artist, 5 - genre, 6 - upload_date
+     * @param keyword
+     * @return
+     */
+    @PostMapping("/list")
+    public ResponseEntity<List<Song>> findSongs(@RequestParam int order,
+    											@RequestParam(required = false) String keyword){
+    	long userId = 1; // should read the value of login user id
+    	
+    	List<Song> songs = new ArrayList<Song>();
+    	
+    	if(keyword == null || "".equals(keyword)) {
+    		songs = songService.findSongsByUserId(userId,order);
+    	}else {
+    		songs = songService.findSongsByUserIdAndKeyword(userId, keyword, order);
+    	}
     	
 		return ResponseEntity.ok(songs);
     	
     }
+    
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteSong(@RequestParam Long id){
+    	Optional<Song> song = songService.findSongById(id);
+    	String result = "failed";
+    	if(song.isPresent()) {
+    		result = songService.deleteSong(song.get());
+    	}
+    	return ResponseEntity.ok(result);
+    }
+    
     
     @GetMapping("/test")
     public ResponseEntity<String> test() {

@@ -15,4 +15,31 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 	Song findByTitleAndArtist(String title, String artist);
 	
 	List<Song> findByUserId(long userid);
+	
+	List<Song> findByUserIdOrderByUploadDateDesc(long userid);
+	
+	List<Song> findByUserIdOrderByTitleAsc(long userid);
+
+	List<Song> findByUserIdOrderByAlbumAsc(long userId);
+
+	List<Song> findByUserIdOrderByArtistAsc(long userId);
+
+	List<Song> findByUserIdOrderByGenreAsc(long userId);
+	
+
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByUploadDateDesc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByTitleAsc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByAlbumAsc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByArtistAsc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByGenreAsc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+	
 }
