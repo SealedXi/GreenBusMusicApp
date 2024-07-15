@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import logo from '../assets/logo.png';
+import axios from 'axios';
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLoginSubmit = (event) => {
+  const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    // Simulate login process
-    if (email === 'algonquin@greenbus.com' && password === 'password') {
+    try {
+      const response = await axios.post('/api/users/login', { email, password });
+      console.log(response.data);
+      localStorage.setItem('user', JSON.stringify(response.data)); // Store user data in local storage
       navigate('/profile');
-    } else {
+    } catch (error) {
       alert('Invalid credentials');
     }
   };

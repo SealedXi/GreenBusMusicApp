@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './UploadSongs.css'; // Import the CSS file
+import axios from 'axios';
 
 const UploadSongs = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userId } = location.state || {}; // Retrieve userId from location state
+
+  const [songTitle, setSongTitle] = useState('');
+  const [songAlbum, setSongAlbum] = useState('');
   const [songFile, setSongFile] = useState(null);
   const [coverArtFile, setCoverArtFile] = useState(null);
 
@@ -15,9 +21,32 @@ const UploadSongs = () => {
     setCoverArtFile(event.target.files[0]);
   };
 
-  const handleUpload = () => {
-    // Handle the file upload
-    console.log("Uploading files...");
+  const handleUpload = async () => {
+    if (!songFile || !coverArtFile) {
+      alert('Please select both song and cover art files.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', songTitle);
+    formData.append('album', songAlbum);
+    formData.append('file', songFile);
+    formData.append('coverImage', coverArtFile);
+    formData.append('userId', userId);
+
+    try {
+      const response = await axios.post('/api/songs/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      });
+      console.log(response.data);
+      alert('Upload successful!');
+      navigate('/profile');
+    } catch (error) {
+      console.error('Upload failed', error);
+      alert('Upload failed. Please try again.');
+    }
   };
 
   const handleCancel = () => {
@@ -32,11 +61,23 @@ const UploadSongs = () => {
       <div className="upload-form">
         <div className="input-group">
           <label htmlFor="songTitle">Song Title</label>
-          <input type="text" id="songTitle" placeholder="Enter song title" />
+          <input
+            type="text"
+            id="songTitle"
+            value={songTitle}
+            onChange={(e) => setSongTitle(e.target.value)}
+            placeholder="Enter song title"
+          />
         </div>
         <div className="input-group">
           <label htmlFor="songAlbum">Song Album</label>
-          <input type="text" id="songAlbum" placeholder="Enter song album" />
+          <input
+            type="text"
+            id="songAlbum"
+            value={songAlbum}
+            onChange={(e) => setSongAlbum(e.target.value)}
+            placeholder="Enter song album"
+          />
         </div>
         <div className="file-group">
           <label className="file-label">
