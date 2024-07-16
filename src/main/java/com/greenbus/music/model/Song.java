@@ -1,52 +1,116 @@
 package com.greenbus.music.model;
 
+
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "song")
 public class Song {
-    @Id
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+	private long id;
+	
+	@Column(nullable = false, length = 11)
+    private long userId;
+	
+	@Column(nullable = false, length = 50)
     private String title;
-
-    @Column(nullable = false)
+	
+	@Column(nullable = true, length = 50)
+    private String artist;
+	
+	@Column(nullable = true, length = 50)
     private String album;
-
-    @Column(nullable = false)
+	
+	@Column(nullable = true, length = 50)
+    private String genre;
+	
+	@Column(nullable = true, length = 1000)
+    private String cover;
+	
+	@Column(nullable = true, length = 1000)
     private String filePath;
+	
+	@Column(nullable = false, length = 30)
+    private String uploadDate;
+	
+    public static String sortType;
 
-    @Column(nullable = false)
-    private String coverImagePath;
+    public Song(){}
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    public Song(long userId, String title, String artist, String album, String genre, String cover, String filePath, String uploadDate ) {
+        this.userId = userId;
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+        this.genre = genre;
+        this.cover = cover; 
+        this.filePath = filePath;
+        this.uploadDate = uploadDate;
+    }
 
-	public Long getId() {
+    	
+
+    public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
-	public String getAlbum() {
-		return album;
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+	public String getArtist() {
+		return artist;
 	}
 
-	public void setAlbum(String album) {
-		this.album = album;
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 
 	public String getFilePath() {
@@ -57,20 +121,21 @@ public class Song {
 		this.filePath = filePath;
 	}
 
-	public String getCoverImagePath() {
-		return coverImagePath;
+	public String getUploadDate() {
+		return uploadDate;
 	}
 
-	public void setCoverImagePath(String coverImagePath) {
-		this.coverImagePath = coverImagePath;
+	public void setUploadDate(String uploadDate) {
+		this.uploadDate = uploadDate;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	@Override
+	public String toString() {
+		return "Song [id=" + id + ", userId=" + userId + ", title=" + title + ", artist=" + artist + ", album=" + album
+				+ ", genre=" + genre + ", cover=" + cover + ", filePath=" + filePath + ", uploadDate=" + uploadDate
+				+ "]";
 	}
     
+	
+
 }

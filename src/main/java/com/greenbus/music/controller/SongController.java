@@ -4,8 +4,17 @@ import com.greenbus.music.model.Song;
 import com.greenbus.music.model.User;
 import com.greenbus.music.service.SongService;
 import com.greenbus.music.service.UserService;
+import com.greenbus.music.repository.SongRepository;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,8 +29,11 @@ import java.util.List;
 @RequestMapping("/api/songs")
 public class SongController {
 
-    private static final String UPLOAD_DIR = "uploads/";
-
+	@Value("${music.local.song}")
+    private String SAVE_PATH; 
+    @Value("${music.local.cover}")
+    private String SAVE_PATH_COVER; 
+	
     @Autowired
     private SongService songService;
 
@@ -31,44 +43,89 @@ public class SongController {
     @PostMapping("/upload")
     public ResponseEntity<Song> uploadSong(
             @RequestParam("title") String title,
+            @RequestParam("artist") String artist,
             @RequestParam("album") String album,
+			@RequestParam("genre") String genre, 	 	
             @RequestParam("file") MultipartFile file,
             @RequestParam("coverImage") MultipartFile coverImage,
             @RequestParam("userId") Long userId) {
-
+    	
+    	String fileNameAndType = file.getOriginalFilename();
+    	String coverFile = coverImage.getOriginalFilename();
+    	
+    	String path = SAVE_PATH + fileNameAndType;
+    	String coverPath = SAVE_PATH_COVER + coverFile;
+    	
+    	
         try {
-            // Save song file
-            String filePath = saveFile(file);
-
-            // Save cover image
-            String coverImagePath = saveFile(coverImage);
+            File dest = new File(path);
+	    	if(!dest.exists()) {
+	    		dest.mkdir();
+	    	}
+    	
+	    	File cover_dest = new File(coverPath);
+	    	if(!cover_dest.exists()) {
+	    		cover_dest.mkdir();
+	    	}
+			
+			file.transferTo(dest);
+			coverImage.transferTo(cover_dest);
 
             User user = userService.findById(userId);
-            if (user == null) {
-                return ResponseEntity.status(400).body(null); // User not found
-            }
+//            if (user == null) {
+//                return ResponseEntity.status(400).body(null); // User not found
+//            }
+			
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    	String uploadTime  = sf.format(new Date());
 
-            Song song = new Song();
-            song.setTitle(title);
-            song.setAlbum(album);
-            song.setFilePath(filePath);
-            song.setCoverImagePath(coverImagePath);
-            song.setUser(user);
-
-            return ResponseEntity.ok(songService.uploadSong(song));
+			if(songService.findSongByNameAndArtist(title, artist) == null) {
+				
+				Song song = new Song(userId, title, artist, album, genre, coverPath, path, uploadTime);
+				        		
+				return ResponseEntity.ok(songService.insertSong(song));
+	        	
+			} else {
+			    return ResponseEntity.ok(null);
+			}
+            
         } catch (IOException e) {
             return ResponseEntity.status(500).build();
-        }
+		}
+    }
+	
+	/**
+     * 
+     * @param order 1 - id, 2 - title, 3 - album, 4 - artist, 5 - genre, 6 - upload_date
+     * @param keyword
+     * @return
+     */
+    @PostMapping("/list")
+    public ResponseEntity<List<Song>> findSongs(@RequestParam int order,
+    											@RequestParam(required = false) String keyword){
+    	long userId = 1; // should read the value of login user id
+    	
+    	List<Song> songs = new ArrayList<Song>();
+    	
+    	if(keyword == null || "".equals(keyword)) {
+    		songs = songService.findSongsByUserId(userId,order);
+    	}else {
+    		songs = songService.findSongsByUserIdAndKeyword(userId, keyword, order);
+    	}
+    	
+		return ResponseEntity.ok(songs);
+    	
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Song>> getSongsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(songService.findByUserId(userId));
-    }
     
     @DeleteMapping("/{songId}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long songId) {
-        boolean deleted = songService.deleteSong(songId);
+    	Optional<Song> song = songService.findSongById(songId);
+    	boolean deleted = false;
+    	if(song.isPresent()) {
+    		deleted = songService.deleteSong(song.get());
+    	}
+     
         if (deleted) {
             return ResponseEntity.noContent().build();
         } else {
@@ -76,13 +133,10 @@ public class SongController {
         }
     }
 
-    private String saveFile(MultipartFile file) throws IOException {
-        if (!Files.exists(Paths.get(UPLOAD_DIR))) {
-            Files.createDirectories(Paths.get(UPLOAD_DIR));
-        }
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(UPLOAD_DIR, fileName);
-        Files.copy(file.getInputStream(), filePath);
-        return filePath.toString();
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        System.out.println("hhhh");
+    	
+        return ResponseEntity.ok("hhhh");
     }
 }
