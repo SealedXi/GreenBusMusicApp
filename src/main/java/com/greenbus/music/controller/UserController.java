@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody User user) {
         User existingUser = userService.findByEmail(user.getEmail());
-        if (existingUser != null && user.getPassword().equals(existingUser.getPassword())) {
+        if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
             return ResponseEntity.ok(existingUser);
         } else {
             return ResponseEntity.status(401).build();

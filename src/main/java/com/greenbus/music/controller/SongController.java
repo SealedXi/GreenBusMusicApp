@@ -29,6 +29,8 @@ import java.util.List;
 @RequestMapping("/api/songs")
 public class SongController {
 
+	@Value("${music.local.root}")
+    private String SAVE_PATH_ROOT; 
 	@Value("${music.local.song}")
     private String SAVE_PATH; 
     @Value("${music.local.cover}")
@@ -53,17 +55,19 @@ public class SongController {
     	String fileNameAndType = file.getOriginalFilename();
     	String coverFile = coverImage.getOriginalFilename();
     	
-    	String path = SAVE_PATH + fileNameAndType;
-    	String coverPath = SAVE_PATH_COVER + coverFile;
+    	String localPath = SAVE_PATH_ROOT+ SAVE_PATH + fileNameAndType;
+    	String localCoverPath = SAVE_PATH_ROOT + SAVE_PATH_COVER + coverFile;
     	
+    	String path =  fileNameAndType;
+    	String coverPath = coverFile;
     	
         try {
-            File dest = new File(path);
+            File dest = new File(localPath);
 	    	if(!dest.exists()) {
 	    		dest.mkdir();
 	    	}
     	
-	    	File cover_dest = new File(coverPath);
+	    	File cover_dest = new File(localCoverPath);
 	    	if(!cover_dest.exists()) {
 	    		cover_dest.mkdir();
 	    	}
@@ -101,9 +105,9 @@ public class SongController {
      * @return
      */
     @PostMapping("/list")
-    public ResponseEntity<List<Song>> findSongs(@RequestParam int order,
-    											@RequestParam(required = false) String keyword){
-    	long userId = 1; // should read the value of login user id
+    public ResponseEntity<List<Song>> findSongs(@RequestParam("userId") long userId,
+    											@RequestParam("order") int order,
+    											@RequestParam("keyword") String keyword){
     	
     	List<Song> songs = new ArrayList<Song>();
     	
