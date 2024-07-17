@@ -29,7 +29,9 @@ const UploadSongs = () => {
 
     const formData = new FormData();
     formData.append('title', songTitle);
+    formData.append('artist', "artist");
     formData.append('album', songAlbum);
+    formData.append('genre', "genre");
     formData.append('file', songFile);
     formData.append('coverImage', coverArtFile);
     formData.append('userId', userId);
