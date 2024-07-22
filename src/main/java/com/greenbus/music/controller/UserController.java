@@ -1,7 +1,12 @@
 package com.greenbus.music.controller;
 
+import com.greenbus.music.config.Constant;
 import com.greenbus.music.model.User;
 import com.greenbus.music.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,9 +33,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User user) {
+    public ResponseEntity<User> login(@RequestBody User user, HttpServletRequest request) {
         User existingUser = userService.findByEmail(user.getEmail());
         if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
+        	// login success
+            HttpSession session = request.getSession(true);
+            session.setAttribute(Constant.USERINFO_SESSION_KEY,existingUser);
             return ResponseEntity.ok(existingUser);
         } else {
             return ResponseEntity.status(401).build();
