@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './SongLists.css'; // Import the CSS file
 import logo from '../assets/logo.png'; // Album logo or cover art
-import playIcon from '../assets/play.png'; // Placeholder play icon
+//import playIcon from '../assets/play.png'; // Placeholder play icon
 import deleteIcon from '../assets/delete.png'; // Placeholder delete icon
 import axios from 'axios';
 
@@ -17,7 +17,7 @@ const SongLists = () => {
   const coverPath = '/uploads/cover/';
 
   const audioRefs = useRef([]);
-  const [isPlaying, setIsPlaying] = useState(false);
+  //const [isPlaying, setIsPlaying] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
   const [selectedSort, setSelectedSort] = useState(''); // State for selected sort option
 

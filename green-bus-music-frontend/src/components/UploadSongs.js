@@ -7,7 +7,7 @@ const UploadSongs = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userId } = location.state || {}; // Retrieve userId from location state
-  const [ user, setUser] = useState({ });
+  //const [ user, setUser] = useState({ });
 
   const [songTitle, setSongTitle] = useState('');
   const [songAlbum, setSongAlbum] = useState('');
@@ -16,9 +16,7 @@ const UploadSongs = () => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }else{
+    if (!storedUser) {
       navigate('/login');
     }
   }, []);
