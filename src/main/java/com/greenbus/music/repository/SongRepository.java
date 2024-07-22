@@ -16,6 +16,8 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 	
 	List<Song> findByUserId(long userid);
 	
+	List<Song> findByUserIdOrderByIdDesc(long userid);
+	
 	List<Song> findByUserIdOrderByUploadDateDesc(long userid);
 	
 	List<Song> findByUserIdOrderByTitleAsc(long userid);
@@ -27,6 +29,9 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 	List<Song> findByUserIdOrderByGenreAsc(long userId);
 	
 
+	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByIdDesc(
+			long userId, String keyword, String keyword2, String keyword3, String keyword4);
+	
 	List<Song> findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByUploadDateDesc(
 			long userId, String keyword, String keyword2, String keyword3, String keyword4);
 

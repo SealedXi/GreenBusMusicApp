@@ -26,27 +26,30 @@ public class SongService {
     /**
      * 
      * @param userId
-     * @param order  1 - upload_date, 2 - title, 3 - album, 4 - artist, 5 - genre
+     * @param order id, title, album, artist, genre, upload_date
      * @return
      */
-    public List<Song> findSongsByUserId(long userId, int order) {
+    public List<Song> findSongsByUserId(long userId, String order) {
     	List<Song> songs = new ArrayList<Song>();
     	switch(order) {
-    	case 1:
+    	case "upload_date":
     		songs = songRepository.findByUserIdOrderByUploadDateDesc(userId);
     		break;
-    	case 2:
+    	case "title":
     		songs = songRepository.findByUserIdOrderByTitleAsc(userId);
     		break;
-    	case 3:
+    	case "album":
     		songs = songRepository.findByUserIdOrderByAlbumAsc(userId);
     		break;
-    	case 4:
+    	case "artist":
     		songs = songRepository.findByUserIdOrderByArtistAsc(userId);
     		break;
-    	case 5:
+    	case "genre":
     		songs = songRepository.findByUserIdOrderByGenreAsc(userId);
     		break;
+		default:
+			songs = songRepository.findByUserIdOrderByIdDesc(userId);
+			break;
     	}
     	if(songs.size()<=0) {
     		System.out.println("user didn't uploaded yet.");
@@ -57,27 +60,30 @@ public class SongService {
      * 
      * @param userId
      * @param keyword
-     * @param order  1 - upload_date, 2 - title, 3 - album, 4 - artist, 5 - genre
+     * @param order  id, title, album, artist, genre, upload_date
      * @return
      */
-    public List<Song> findSongsByUserIdAndKeyword(long userId, String keyword, int order) {
+    public List<Song> findSongsByUserIdAndKeyword(long userId, String keyword, String order) {
     	List<Song> songs = new ArrayList<Song>();
     	
     	switch(order) {
-    	case 1:
+    	case "upload_date":
     		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByUploadDateDesc(userId, keyword, keyword, keyword, keyword);
     		break;
-    	case 2:
+    	case "title":
     		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByTitleAsc(userId, keyword, keyword, keyword, keyword);
     		break;
-    	case 3:
+    	case "album":
     		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByAlbumAsc(userId, keyword, keyword, keyword, keyword);
     		break;
-    	case 4:
+    	case "artist":
     		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByArtistAsc(userId, keyword, keyword, keyword, keyword);
     		break;
-    	case 5:
+    	case "genre":
     		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByGenreAsc(userId, keyword, keyword, keyword, keyword);
+    		break;
+    	default:
+    		songs = songRepository.findByUserIdAndTitleContainingOrAlbumContainingOrArtistContainingOrGenreContainingOrderByIdDesc(userId, keyword, keyword, keyword, keyword);
     		break;
     	}
     	if(songs.size()<=0) {

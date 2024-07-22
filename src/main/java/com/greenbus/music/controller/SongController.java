@@ -100,13 +100,13 @@ public class SongController {
 	
 	/**
      * 
-     * @param order 1 - id, 2 - title, 3 - album, 4 - artist, 5 - genre, 6 - upload_date
+     * @param order id, title, album, artist, genre, upload_date
      * @param keyword
      * @return
      */
     @PostMapping("/list")
     public ResponseEntity<List<Song>> findSongs(@RequestParam("userId") long userId,
-    											@RequestParam("order") int order,
+    											@RequestParam("order") String order,
     											@RequestParam("keyword") String keyword){
     	
     	List<Song> songs = new ArrayList<Song>();
