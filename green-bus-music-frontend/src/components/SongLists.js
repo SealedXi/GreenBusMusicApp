@@ -25,6 +25,7 @@ const SongLists = () => {
     const { order, keyword } = params;
     if (!userId) {
       console.error('No userId provided');
+      navigate('/login');
       return;
     }
 

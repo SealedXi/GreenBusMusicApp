@@ -11,6 +11,8 @@ const UserProfile = () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+    }else{
+        navigate('/login');
     }
   }, []);
 
@@ -20,10 +22,16 @@ const UserProfile = () => {
   };
 
   const handleViewSongsClick = () => {
+      if(user==null){
+          navigate('/login');
+      }
     navigate('/view-songs', { state: { userId: user.id } }); // Pass user ID as state
   };
 
   const handleUploadSongsClick = () => {
+      if(user==null){
+          navigate('/login');
+      }
     navigate('/upload-songs', { state: { userId: user.id } }); // Pass user ID as state
   };
 

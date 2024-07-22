@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './UploadSongs.css'; // Import the CSS file
 import axios from 'axios';
@@ -7,11 +7,21 @@ const UploadSongs = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userId } = location.state || {}; // Retrieve userId from location state
+  const [ user, setUser] = useState({ });
 
   const [songTitle, setSongTitle] = useState('');
   const [songAlbum, setSongAlbum] = useState('');
   const [songFile, setSongFile] = useState(null);
   const [coverArtFile, setCoverArtFile] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }else{
+      navigate('/login');
+    }
+  }, []);
 
   const handleSongFileChange = (event) => {
     setSongFile(event.target.files[0]);
@@ -52,6 +62,7 @@ const UploadSongs = () => {
   };
 
   const handleCancel = () => {
+
     navigate('/profile');
   };
 
