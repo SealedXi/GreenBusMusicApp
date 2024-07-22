@@ -21,32 +21,33 @@ const SongLists = () => {
   const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
   const [selectedSort, setSelectedSort] = useState(''); // State for selected sort option
 
+  const fetchSongs = async (params) => {
+    const { order, keyword } = params;
+    if (!userId) {
+      console.error('No userId provided');
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('userId', userId);
+      formData.append('order', order);
+      formData.append('keyword', keyword);
+
+      const response = await axios.post('/api/songs/list', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      });
+
+      setSongs(response.data);
+    } catch (error) {
+      console.error('Failed to fetch songs', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchSongs = async () => {
-      if (!userId) {
-        console.error('No userId provided');
-        return;
-      }
-
-      try {
-        const formData = new FormData();
-        formData.append('userId', userId);
-        formData.append('order', 1);
-        formData.append('keyword', "");
-
-        const response = await axios.post('/api/songs/list', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          },
-        });
-
-        setSongs(response.data);
-      } catch (error) {
-        console.error('Failed to fetch songs', error);
-      }
-    };
-
-    fetchSongs();
+    fetchSongs({ order: selectedSort, keyword: '' });
   }, [userId]);
 
   const handlePlay = (index) => {
@@ -79,6 +80,7 @@ const SongLists = () => {
     setSelectedSort(sortOption);
     setShowDropdown(false);
     // Add logic here to sort the songs when the backend functionality is implemented
+    fetchSongs({ order: sortOption, keyword: '' });
   };
 
   return (
@@ -91,6 +93,9 @@ const SongLists = () => {
           </button>
           {showDropdown && (
             <ul className="sort-dropdown">
+              {
+                //@param order 1 - id, 2 - title, 3 - album, 4 - artist, 5 - genre, 6 - upload_date
+              }
               <li onClick={() => handleSortSelect('id')}>ID</li>
               <li onClick={() => handleSortSelect('title')}>Title</li>
               <li onClick={() => handleSortSelect('album')}>Album</li>
