@@ -39,7 +39,7 @@ const RegisterPage = () => {
         <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit" className="register-button">REGISTER</button>
       </form>
-      <button className="back-button" onClick={handleBackClick}>Back</button>
+      <button className="register-button" onClick={handleBackClick}>Back</button>
     </div>
   );
 };
