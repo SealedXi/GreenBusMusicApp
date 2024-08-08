@@ -174,3 +174,24 @@ body {
   background-color: #ff0000;
   color: #ffffff;
 }
+
+.song-actions {
+  display: flex;
+  align-items: center;
+}
+
+.play-button,
+.delete-button,
+.share-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.play-button img,
+.delete-button img,
+.share-button img {
+  width: 24px;
+  height: 24px;
+}
